@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>User Management System</title>
+</head>
+<body>
+  <h1>User Management System</h1>
+  <form id="registerForm">
+    <label for="registerUsername">Username:</label>
+    <input type="text" id="registerUsername" required>
+    <label for="registerPassword">Password:</label>
+    <input type="password" id="registerPassword" required>
+    <button type="submit">Register</button>
+  </form>
+  
+  <h2>User List</h2>
+  <ul id="userList"></ul>
+
+  <script>
+    // 模拟用户数据
+    let users = [];
+
+    // 添加用户
+    function addUser(username, password) {
+      users.push({ username, password });
+    }
+
+    // 显示用户列表
+    function displayUsers() {
+      const userList = document.getElementById('userList');
+      userList.innerHTML = '';
+      users.forEach(user => {
+        const li = document.createElement('li');
+        li.textContent = `${user.username}`;
+        const deleteButton = document.createElement('button');
+        deleteButton.textContent = 'Delete';
+        deleteButton.addEventListener('click', () => deleteUser(user.username));
+        li.appendChild(deleteButton);
+        userList.appendChild(li);
+      });
+    }
+
+    // 删除用户
+    function deleteUser(username) {
+      users = users.filter(user => user.username !== username);
+      displayUsers();
+    }
+
+    // 注册表单提交处理
+    const registerForm = document.getElementById('registerForm');
+    registerForm.addEventListener('submit', function(event) {
+      event.preventDefault();
+      const registerUsername = document.getElementById('registerUsername').value;
+      const registerPassword = document.getElementById('registerPassword').value;
+      addUser(registerUsername, registerPassword);
+      displayUsers();
+      registerForm.reset();
+    });
+
+    // 初始显示用户列表
+    displayUsers();
+  </script>
+</body>
+</html>
